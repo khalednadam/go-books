@@ -80,16 +80,7 @@ func checkoutBook(c *gin.Context) {
 }
 
 func checkIn(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-	if !ok {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Missing id query parameter"})
-		return
-	}
-	book, err := getBookById(id)
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Book not found"})
-		return
-	}
+	book := checkBook(c)
 
 	book.Quantity++
 	c.IndentedJSON(http.StatusOK, book)
